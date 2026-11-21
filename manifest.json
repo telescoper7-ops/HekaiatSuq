@@ -1,8 +1,8 @@
 {
-  "name": "DARB",
+  "name": "Hekaiat Suq",
   "id": "/Darb/",
-  "short_name": "DARB",
-  "description": "DARB",
+  "short_name": "Hekaiat Suq",
+  "description": "Hekaiat Suq",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
