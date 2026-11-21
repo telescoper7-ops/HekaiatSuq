@@ -9,20 +9,21 @@
 <title>حكاية سوق</title>
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preload" as="image" href="icon-192.png">
 <meta name="description" content="بيع او اشتري مع موقع حكاية سوق">
 <!-- معاينة الرابط (واتساب وفيسبوك وغيرها) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="حكاية سوق">
 <meta property="og:title" content="حكاية سوق">
 <meta property="og:description" content="بيع وشراء كل ما تحتاج">
-<meta property="og:url" content="https://telescoper7-ops.github.io/HekaiatSuq/">
-<meta property="og:image" content="https://telescoper7-ops.github.io/HekaiatSuq/icon-512.png">
-<meta name="twitter:image" content="https://telescoper7-ops.github.io/HekaiatSuq/icon-512.png">
+<meta property="og:url" content="https://transportationsline.github.io/Darb/">
+<meta property="og:image" content="https://transportationsline.github.io/Darb/icon-512.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
 <!-- تويتر / X -->
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://transportationsline.github.io/Darb/icon-512.png">
 <!-- أيقونة التبويب -->
 <link rel="icon" type="image/png" href="icon-512.png">
  
@@ -358,7 +359,35 @@ dialog{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 html[dir="ltr"] .m.me{align-self:flex-end}
 html[dir="ltr"] .m.ot{align-self:flex-start}
 #adminBtn{margin-inline-start:auto;text-decoration:none;color:var(--brand)}
-
+.av-info { background:#f8fafb; border:1px solid #dee2e6; border-radius:10px; padding:10px 12px; font-size:.88rem; display:grid; gap:4px; }
+.av-info b { color:#0f3d3e; }
+.av-thumb { width:84px; height:84px; object-fit:cover; border-radius:8px; border:1px solid #ddd; cursor:pointer; }
+.logoimg{width:44px;height:44px;border-radius:12px;object-fit:cover;display:block;flex:none}
+#waDlg.mini{position:fixed;inset:0;margin:auto;width:min(360px,92vw);height:auto;max-height:90vh;border-radius:26px;padding:28px 22px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.35);z-index:100000;overflow:hidden}
+#waDlg.mini[open]{display:block;animation:waPop .28s ease}
+#waDlg.mini::backdrop{background:rgba(10,14,35,.55);backdrop-filter:blur(3px)}
+#waDlg.mini>form{max-width:none;margin:0}
+#waDlg.mini>.bar{display:none}
+@keyframes waPop{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
+.wa-ico{width:68px;height:68px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,#1FAF57,#12663A);color:#fff;display:grid;place-items:center;box-shadow:0 10px 24px rgba(31,175,87,.35)}
+.wa-ico svg{width:34px;height:34px}
+#waDlg h2{margin:0 0 6px;font-size:20px}
+#waDlg p{margin:0 0 16px;line-height:1.7}
+.wa-sum{background:var(--chip);border-radius:16px;padding:6px 14px;margin-bottom:18px;text-align:start}
+.wa-sum div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;font-size:14px;border-bottom:1px dashed var(--line)}
+.wa-sum div:last-child{border-bottom:0}
+.wa-sum span{color:var(--muted)}
+.wa-sum b{color:var(--ink)}
+.wa-sum div:last-child b{color:var(--brand);font-size:16px}
+.wa-yes{background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.wa-yes svg{width:20px;height:20px;flex:none}
+#splash{position:fixed;inset:0;z-index:2147483647;background:#fff;display:grid;place-items:center;transition:opacity .4s ease}
+#splash.out{opacity:0;pointer-events:none}
+#splash img{width:min(500px,80vw);height:auto;border-radius:50px;animation:spPop .6s ease}
+@keyframes spPop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+body.splashing{overflow:hidden}
+body.splashing #ldr{display:none!important}
+#splash .spbox img#spImg{width:min(420px,85vw)!important;max-width:none!important;height:auto!important;border-radius:32px}
 
 
 
@@ -387,32 +416,42 @@ body.has-install-bar #bookConfirmBar { bottom: 62px; }
   font-family: 'Cairo', sans-serif; font-size: 14px;
 }
 body.has-install-bar { padding-bottom: 80px; }
-.av-info { background:#f8fafb; border:1px solid #dee2e6; border-radius:10px; padding:10px 12px; font-size:.88rem; display:grid; gap:4px; }
-.av-info b { color:#0f3d3e; }
-.av-thumb { width:84px; height:84px; object-fit:cover; border-radius:8px; border:1px solid #ddd; cursor:pointer; }
-.logoimg{width:44px;height:44px;border-radius:12px;object-fit:cover;display:block;flex:none}
-#waDlg.mini{position:fixed;inset:0;margin:auto;width:min(360px,92vw);height:auto;max-height:90vh;border-radius:26px;padding:28px 22px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.35);z-index:100000;overflow:hidden}
-#waDlg.mini[open]{display:block;animation:waPop .28s ease}
-#waDlg.mini::backdrop{background:rgba(10,14,35,.55);backdrop-filter:blur(3px)}
-#waDlg.mini>form{max-width:none;margin:0}
-#waDlg.mini>.bar{display:none}
-@keyframes waPop{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
-.wa-ico{width:68px;height:68px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,#1FAF57,#12663A);color:#fff;display:grid;place-items:center;box-shadow:0 10px 24px rgba(31,175,87,.35)}
-.wa-ico svg{width:34px;height:34px}
-#waDlg h2{margin:0 0 6px;font-size:20px}
-#waDlg p{margin:0 0 16px;line-height:1.7}
-.wa-sum{background:var(--chip);border-radius:16px;padding:6px 14px;margin-bottom:18px;text-align:start}
-.wa-sum div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;font-size:14px;border-bottom:1px dashed var(--line)}
-.wa-sum div:last-child{border-bottom:0}
-.wa-sum span{color:var(--muted)}
-.wa-sum b{color:var(--ink)}
-.wa-sum div:last-child b{color:var(--brand);font-size:16px}
-.wa-yes{background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
-.wa-yes svg{width:20px;height:20px;flex:none}
+
+
 </style>
 </head>
-<body>
+<body class="splashing">
 <header>
+ <div id="splash" aria-hidden="true">
+  <div class="spbox">
+   <img id="spImg" alt="" src="icon-512.png">
+    <b id="spTxt" hidden>حكاية سوق</b>
+  </div>
+</div>
+<script>
+(function(){
+  var img=document.getElementById('spImg'),txt=document.getElementById('spTxt'),s=document.getElementById('splash');
+var srcs=[
+  'https://lh3.googleusercontent.com/d/1fF20U_guW8MdMjFfyKObJe7bvuCaTJ7d',
+  'https://drive.google.com/thumbnail?id=1fF20U_guW8MdMjFfyKObJe7bvuCaTJ7d&sz=w256'
+],i=0,started=false;
+  function start(){
+    if(started)return;started=true;
+    setTimeout(function(){
+      s.classList.add('out');
+      document.body.classList.remove('splashing');
+      setTimeout(function(){s.remove()},4000);
+    },2000);
+  }
+  img.onload=start;
+  img.onerror=function(){
+    if(i<srcs.length){img.src=srcs[i++];return}
+    img.hidden=true;txt.hidden=false;start();
+  };
+  if(img.complete&&img.naturalWidth)start();
+  setTimeout(start,4000); // ضمان: لا تبقى الشاشة أكثر من 4 ثوانٍ مهما حدث
+})();
+</script>
   <div class="wrap">
     <div class="top">
    <div class="logo">
