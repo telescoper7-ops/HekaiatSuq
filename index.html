@@ -7,12 +7,14 @@
 <link id="bsCss" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <title>حكاية سوق</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="description" content="بيع او اشتري مع موقع حكاية سوق">
 <!-- معاينة الرابط (واتساب وفيسبوك وغيرها) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="حكاية سوق">
 <meta property="og:title" content="حكاية سوق">
-<meta property="og:description" content="ابحث عن سائق أو مركبة أو خدمة على الطريق">
+<meta property="og:description" content="بيع وشراء كل ما تحتاج">
 <meta property="og:url" content="https://transportationsline.github.io/Darb/">
 <meta property="og:image" content="https://transportationsline.github.io/Darb/icon-512.png">
 <meta property="og:image:type" content="image/png">
@@ -388,15 +390,33 @@ body.has-install-bar { padding-bottom: 80px; }
 .av-info { background:#f8fafb; border:1px solid #dee2e6; border-radius:10px; padding:10px 12px; font-size:.88rem; display:grid; gap:4px; }
 .av-info b { color:#0f3d3e; }
 .av-thumb { width:84px; height:84px; object-fit:cover; border-radius:8px; border:1px solid #ddd; cursor:pointer; }
+.logoimg{width:44px;height:44px;border-radius:12px;object-fit:cover;display:block;flex:none}
+#waDlg.mini{position:fixed;inset:0;margin:auto;width:min(360px,92vw);height:auto;max-height:90vh;border-radius:26px;padding:28px 22px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.35);z-index:100000;overflow:hidden}
+#waDlg.mini[open]{display:block;animation:waPop .28s ease}
+#waDlg.mini::backdrop{background:rgba(10,14,35,.55);backdrop-filter:blur(3px)}
+#waDlg.mini>form{max-width:none;margin:0}
+#waDlg.mini>.bar{display:none}
+@keyframes waPop{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
+.wa-ico{width:68px;height:68px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(135deg,#1FAF57,#12663A);color:#fff;display:grid;place-items:center;box-shadow:0 10px 24px rgba(31,175,87,.35)}
+.wa-ico svg{width:34px;height:34px}
+#waDlg h2{margin:0 0 6px;font-size:20px}
+#waDlg p{margin:0 0 16px;line-height:1.7}
+.wa-sum{background:var(--chip);border-radius:16px;padding:6px 14px;margin-bottom:18px;text-align:start}
+.wa-sum div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;font-size:14px;border-bottom:1px dashed var(--line)}
+.wa-sum div:last-child{border-bottom:0}
+.wa-sum span{color:var(--muted)}
+.wa-sum b{color:var(--ink)}
+.wa-sum div:last-child b{color:var(--brand);font-size:16px}
+.wa-yes{background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.wa-yes svg{width:20px;height:20px;flex:none}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
     <div class="top">
-      <div class="logo">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3F4CFF"/><stop offset="1" stop-color="#9B5CFF"/></linearGradient></defs><rect width="48" height="48" rx="14" fill="url(#g)"/><path d="M14 19h20l-2 15a3 3 0 0 1-3 2.600H19a3 3 0 0 1-3-2.600z" fill="#fff"/><path d="M19 19v-2a5 5 0 0 1 10 0v2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
-        <b>حكاية سوق</b>
+   <div class="logo">
+ <img class="logoimg" src="icon-192.png" alt="حكاية سوق" width="44" height="44"><b>حكاية سوق</b>
       </div>
       <div class="auth">
         
@@ -617,6 +637,17 @@ body.has-install-bar { padding-bottom: 80px; }
   </div>
   <p class="err" id="prErr"></p>
   <div class="row"><button class="btn" id="prSave" type="submit">حفظ</button><button class="btn ghost" type="button" id="prCancel">إلغاء</button></div>
+</form></dialog>
+
+<dialog id="waDlg" class="mini"><form method="dialog" id="waForm">
+  <div class="wa-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.500"/></svg></div>
+  <h2>تم إرسال طلبك بنجاح</h2>
+  <p>هل تريد إرسال تفاصيله إلى الإدارة عبر واتساب لتسريع الاعتماد؟</p>
+  <div class="wa-sum" id="waSum"></div>
+  <div class="row">
+    <button class="btn wa-yes" value="yes" id="waYes"><span>نعم، أرسل</span></button>
+    <button class="btn ghost" value="no">لاحقًا</button>
+  </div>
 </form></dialog>
 
 
@@ -1445,6 +1476,38 @@ $('#balBtn').onclick=()=>{
 $('#qMinus').onclick=()=>{$('#qIn').value=Math.max(1,qVal()-1);qUpdate()};
 $('#qPlus').onclick=()=>{$('#qIn').value=Math.min(1000,qVal()+1);qUpdate()};
 $('#qIn').addEventListener('input',qUpdate);
+
+$('#waYes').insertAdjacentHTML('afterbegin',ICON.wa);
+
+const ADMIN_WA='96895209623';   // 968 + 95209623
+function askWaAdmin(o){
+ const dlg=$('#waDlg');
+ dlg.returnValue='';
+ $('#waSum').innerHTML=
+  `<div><span>رقم الطلب</span><b>${esc(o.id)}</b></div>`+
+  `<div><span>العدد</span><b>${o.qty}</b></div>`+
+  `<div><span>الإجمالي</span><b>${(+o.total).toFixed(3)} ر.ع</b></div>`;
+ dlg.addEventListener('close',function h(){
+  dlg.removeEventListener('close',h);
+  $('#balBox').classList.add('hide');
+  $('#qErr').textContent='';$('#qErr').style.color='';
+  if(dlg.returnValue!=='yes')return;
+  const d=new Date().toLocaleString('en-CA',{timeZone:'Asia/Muscat',hour12:false}).replace(',','');
+  const msg=
+   '🔔 *طلب اضافة رصيد*\n\n'+
+   '🧾 رقم الطلب: '+o.id+'\n'+
+   '📅 التاريخ: '+d+'\n'+
+   '📱 رقم الهاتف: '+(S&&S.user.phone||'')+'\n'+
+   '🔢 العدد: '+o.qty+'\n'+
+   '💰 السعر: '+BAL_PRICE.toFixed(3)+' ر.ع\n'+
+   '✅ الاجمالي: *'+(+o.total).toFixed(3)+' ر.ع*\n'+
+   '⏳ الحالة: قيد الإجراء';
+  const url='https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(msg);
+  if(!window.open(url,'_blank'))location.href=url;
+ });
+ dlg.showModal();
+}
+
 $('#qGo').onclick=async()=>{
  const err=$('#qErr'),btn=$('#qGo'),qty=qVal();
  err.textContent='';
@@ -1454,10 +1517,12 @@ $('#qGo').onclick=async()=>{
  try{
   const r=await post(API_BAL,{action:'order',token:S.token,qty});
   if(!r.ok){if(r.code==='auth'){saveSess(null);$('#uDlg').close()}err.textContent=r.error||'تعذر إرسال الطلب';}
-  else{
+   else{
    err.style.color='var(--wa)';
    err.textContent='تم إرسال طلبك (الإجمالي '+r.total.toFixed(3)+' ر.ع)، وسيُضاف الرصيد بعد تأكيد الإدارة.';
+   const q0=qty;
    $('#qIn').value=1;qUpdate();
+   askWaAdmin({id:r.id,qty:q0,total:r.total});
   }
  }catch(e){err.textContent='تعذر الاتصال بالخادم'}
  btn.disabled=false;btn.textContent=old;
@@ -1921,6 +1986,7 @@ const EN={
 "نخل":"Nakhal","وادي المعاول":"Wadi Al Maawil","بركاء":"Barka","المصنعة":"Al Musannah","صور":"Sur","جعلان بني بو علي":"Jalan Bani Bu Ali",
 "جعلان بني بو حسن":"Jalan Bani Bu Hassan","مصيرة":"Masirah","الكامل والوافي":"Al Kamil & Al Wafi","إبراء":"Ibra","بدية":"Bidiyah",
 "القابل":"Al Qabil","المضيبي":"Al Mudhaibi","دماء والطائيين":"Dima & Al Tayeen","وادي بني خالد":"Wadi Bani Khalid","سناو":"Sinaw",
+"تم إرسال طلبك":"Your order was sent","هل تريد إرسال رسالة واتساب إلى الإدارة؟":"Do you want to send a WhatsApp message to the admin?","نعم":"Yes","لا":"No",
 "عبري":"Ibri","ينقل":"Yanqul","ضنك":"Dank","هيما":"Haima","محوت":"Mahout","الدقم":"Duqm","الجازر":"Al Jazer","لوحة الإدارة":"Admin panel"
 };
 function tr(s){
