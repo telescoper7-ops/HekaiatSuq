@@ -1,8 +1,12 @@
-const CACHE = 'Hekaiat Suq-v8';
+const CACHE = 'hekaiat-suq-v9';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+  e.waitUntil(
+    caches.open(CACHE).then(c =>
+      Promise.all(ASSETS.map(a => c.add(a).catch(() => {})))
+    )
+  );
   self.skipWaiting();
 });
 
@@ -20,16 +24,16 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // لا نخزّن طلبات السيرفر (Google Apps Script)
   if (url.hostname.includes('script.google.com') ||
       url.hostname.includes('googleusercontent.com')) return;
 
-  // الشبكة أولاً، ثم الكاش عند انقطاع الإنترنت
   e.respondWith(
     fetch(req)
       .then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(req, copy));
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy));
+        }
         return res;
       })
       .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
