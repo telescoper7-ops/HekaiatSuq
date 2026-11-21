@@ -388,8 +388,17 @@ html[dir="ltr"] .m.ot{align-self:flex-start}
 body.splashing{overflow:hidden}
 body.splashing #ldr{display:none!important}
 #splash .spbox img#spImg{width:min(420px,85vw)!important;max-width:none!important;height:auto!important;border-radius:32px}
-
-
+.btn{--b:var(--brand);--c:var(--brand-ink);transition:filter .12s,transform .12s}
+.btn.ghost{--b:var(--chip);--c:var(--ink)}
+.edb,.edb.ghost{--b:#16A34A;--c:#fff}
+.wa-yes{--b:var(--wa);--c:#fff}
+.btn:hover,.btn:focus,.btn:focus-visible,.btn:active,.btn:first-child:active,:not(.btn-check)+.btn:active{
+  background-color:var(--b);color:var(--c);border-color:transparent;box-shadow:none}
+.btn:active{filter:brightness(.85);transform:scale(.97)}
+.dlbtn{position:absolute;top:10px;left:10px;z-index:3;width:38px;height:38px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .12s,filter .12s}
+.dlbtn svg{width:20px;height:20px}
+.dlbtn:active{transform:scale(.9);filter:brightness(1.3)}
+.dlbtn:disabled{opacity:.5;cursor:wait}
 
 /* ===== زر تثبيت التطبيق (أسفل النافذة) ===== */
 /* ===== زر تثبيت التطبيق (أسفل النافذة) ===== */
@@ -493,9 +502,7 @@ var srcs=[
 <dialog id="addDlg"><form method="dialog" id="addForm">
    <h2 id="addTitle">اعلان جديد</h2>
 <div class="field">
-  <small class="note">(لا يمكن تعديله بعد الحفظ)</small>
   <input id="aT" required maxlength="46" placeholder="اسم المنتج" aria-label="اسم المنتج">
-  <small class="note">(لا يمكن تعديله بعد الحفظ)</small>
   <select id="aC" required aria-label="القسم"></select>
   <select id="aK" required aria-label="نوع العرض"></select>
   <input id="aP" required type="number" min="0" step="any" inputmode="decimal" placeholder="السعر بالريال العماني" aria-label="السعر">
@@ -580,6 +587,7 @@ var srcs=[
 
 <dialog id="cDlg"><form method="dialog">
   <h2>دردشاتي</h2><p>المحادثات التي بدأتها مع البائعين.</p>
+  <input id="cQ" class="ordq" type="search" placeholder="ابحث بالمنتج أو القسم أو رقم المعلن…" aria-label="بحث في المحادثات" autocomplete="off">
   <div id="cList"></div>
   <div class="row"><button class="btn ghost">إغلاق</button></div>
 </form></dialog>
@@ -614,6 +622,7 @@ var srcs=[
     <button class="nav prev" data-d="-1" type="button" aria-label="السابقة">‹</button>
     <button class="nav next" data-d="1" type="button" aria-label="التالية">›</button>
     <div class="dots" id="pDots"></div>
+    <button class="dlbtn hide" id="pDl" type="button" aria-label="تحميل الصورة" title="تحميل الصورة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 20h14"/></svg></button>
   </div>
   <div id="pInfo"></div>
   <div class="actions" id="pActs">
@@ -646,6 +655,7 @@ var srcs=[
     <div><b id="mExp">0</b><span>منتهي</span></div>
     <div><b id="mSus">0</b><span>موقوف</span></div>
   </div>
+  <input id="mQ" class="ordq" type="search" placeholder="ابحث بالاسم أو القسم…" aria-label="بحث في إعلاناتي" autocomplete="off">
   <section class="grid" id="mGrid"></section>
   <div class="row" style="margin-top:14px"><button type="button" class="btn ghost" id="mClose">إغلاق</button></div>
 </div></dialog>
@@ -658,7 +668,6 @@ var srcs=[
     <button type="button" class="link" id="prDel" style="margin:4px auto 0">إزالة الصورة</button>
   </div>
   <div class="field">
-    <small class="note">(رقم الهاتف لا يمكن تعديله)</small>
     <input id="prPhone" disabled aria-label="رقم الهاتف">
     <input id="prName" maxlength="24" placeholder="اسم المستخدم" aria-label="الاسم">
     <div class="emrow">
@@ -741,10 +750,10 @@ async function loadFavs(){
 }
 let chats=[];try{chats=JSON.parse(store.get('chats')||'[]')}catch(e){}
 
-const API_USER='https://script.google.com/macros/s/AKfycbz9TlH58eWJ7nexRxAHfj8WpZIQU7VR-1cJT7RpjPnx91svJKrhDy5BJs53srQ992pX/exec';
-const API_PROD='https://script.google.com/macros/s/AKfycbxsBOsCoLw9CUdgbnh-TIgD_tDbaYMksWkfatGz754SAPeqfqj84fx77C_S0tp0DWDc/exec';
+const API_USER='https://script.google.com/macros/s/AKfycbw33iOKy2Ju1GTFz2niLOVsounil9NNqGLWIeomKF1GQgRSYz6U8IrmMFG-jcEZWSo0/exec';
+const API_PROD='https://script.google.com/macros/s/AKfycbzuQxwgrKzkx-fFbi83xbkvIOWn1_i3s7sm4l_M1PgTbWcRMhSBh57QJBeOi4oHFYPA/exec';
 const API_CHAT='https://script.google.com/macros/s/AKfycbxlsuBm0ySG2VWjNI5oGUKVUb--J8zwNZ4XwY86qXQ9xtcRYoV_fLwbQXCg2Sk0D_EV/exec';
-const API_BAL='https://script.google.com/macros/s/AKfycby3uQwcJnpe4CvBu1EmGH13eCyQ19ST4ZaU7VU7aRK5Ocs3mbyVf-OzSfhoph2ZcOS7ww/exec';
+const API_BAL='https://script.google.com/macros/s/AKfycbyVc8UPI-f9MedCo571H7OsXKyxzZTgc2sFPzLAbuFZ9i8n2Fb62EKH5bEvivqg41Geng/exec';
 const API_FAV='https://script.google.com/macros/s/AKfycbz3fyMHMl0e85miE_093J2CkRRvLvn0FP7EDAvZfU-iR3UrB1_PXo-iiHMIaWJUiH56/exec';
 const MAXC=30000;
 const digits=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\D/g,'');
@@ -879,14 +888,14 @@ $('#bFilter').classList.toggle('cur',F.s!=='كل الحالات'||!!(F.kd||F.reg
   <div class="slides"><img src="${pics(p)[0]}" alt="${esc(p.t)}" loading="lazy"></div>
  </div>
    <div class="body">
-    <h3>${p.t}</h3>
-    <div class="tags"><span class="tag">${p.c}</span><span class="tag ${p.dl?'dlv':'nodlv'}">${p.dl?'يوجد توصيل':'لا يوجد توصيل'}</span></div>
+    <h3>${esc(p.t)}</h3>
+    <div class="tags"><span class="tag">${esc(p.c)}</span><span class="tag ${p.dl?'dlv':'nodlv'}">${p.dl?'يوجد توصيل':'لا يوجد توصيل'}</span></div>
    ${p.d?`<p class="desc">${esc(p.d.slice(0,120))}</p>`:''}
-    <div class="meta">${ICON.pin}<span>${p.l}</span>${p.kd?`<span class="tag">${esc(p.kd)}</span>`:''}</div>
-    <div class="prow"><div class="price">${p.p} <small>ر.ع</small></div><span class="state ${p.s==='جديد'?'new':p.s==='مستعمل'?'used':'ref'}">${p.s}</span></div>
+    <div class="meta">${ICON.pin}<span>${esc(p.l)}</span>${p.kd?`<span class="tag">${esc(p.kd)}</span>`:''}</div>
+    <div class="prow"><div class="price">${esc(p.p)} <small>ر.ع</small></div><span class="state ${p.s==='جديد'?'new':p.s==='مستعمل'?'used':'ref'}">${esc(p.s)}</span></div>
    <div class="actions">
-    <a class="icon wa" href="https://wa.me/${p.ph}" target="_blank" rel="noopener" aria-label="واتساب">${ICON.wa}</a>
-    <a class="call" href="tel:+${p.ph}">${ICON.phone}<span>اتصال</span></a>
+    <a class="icon wa" href="https://wa.me/${esc(p.ph)}" target="_blank" rel="noopener" aria-label="واتساب">${ICON.wa}</a>
+    <a class="call" href="tel:+${esc(p.ph)}">${ICON.phone}<span>اتصال</span></a>
        <button class="icon chatb" data-i="${p.i}" type="button" aria-label="دردشة">${ICON.chat}</button>
     <button class="icon fav ${favs.has(p.k)?'on':''}" data-i="${p.i}" type="button" aria-label="المفضلة" aria-pressed="${favs.has(p.k)}">${ICON.heart}</button>
    </div>
@@ -1137,6 +1146,7 @@ $('#addForm').addEventListener('submit',async e=>{
   const imgs=[];
   for(const f of files)imgs.push(f.data||await compress(f.file));
 const payload = {action:'update', token:S.token, k:editK,
+  name:$('#aT').value.trim(), section:$('#aC').value,
   state:$('#aS').value, kind:$('#aK').value, price:+$('#aP').value,
   desc:$('#aD').value.trim(), delivery:$('#aDl').checked, loc};
 if (imgs.length) payload.imgs = imgs;   // لا نمسح الصور القديمة
@@ -1148,19 +1158,14 @@ if(!r.ok){if(r.code==='auth')saveSess(null);throw new Error(r.error)}
   return;
  }
  btn.textContent='جارٍ النشر…';
- let consumed=false;
  try{
-     const imgs=[];
-   for(const f of files)imgs.push(f.data||await compress(f.file));
-  const u=await post(API_USER,{action:'consume',token:S.token});
-  if(!u.ok){if(u.code==='auth')saveSess(null);throw new Error(u.error)}
-  consumed=true;
+  const imgs=[];
+  for(const f of files)imgs.push(f.data||await compress(f.file));
   const r=await post(API_PROD,{action:'add',token:S.token,name:$('#aT').value.trim(),section:$('#aC').value,kind:$('#aK').value,state:$('#aS').value,price:+$('#aP').value,desc:$('#aD').value.trim(),delivery:$('#aDl').checked,phone:digits($('#aH').value),loc,imgs});
-  if(!r.ok)throw new Error(r.error);
-  S.user=u.user;saveSess(S);
+  if(!r.ok){if(r.code==='auth')saveSess(null);throw new Error(r.error)}
+  if(r.bal){S.user={...S.user,...r.bal};saveSess(S)}
   $('#addDlg').close('done');
  }catch(err){
-  if(consumed){try{const f=await post(API_USER,{action:'refund',token:S.token});if(f.ok){S.user=f.user;saveSess(S)}}catch(x){}}
   alert(err.message||'تعذر النشر، حاول مرة أخرى');
  }
  btn.disabled=false;btn.textContent=old;
@@ -1189,6 +1194,7 @@ function drawSlides(arr){
  const s=$('#pSlider');s.dataset.n=arr.length;s.dataset.k=0;
  $('#pSlides').style.transform='translateX(0)';
  s.classList.toggle('single',arr.length<2);
+ $('#pDl').classList.toggle('hide',!arr.length||!arr.every(okImg));
 }
 
 
@@ -1218,6 +1224,66 @@ async function openProduct(i,buyer,toChat){
  if(!p.full)ensureImgs(p);
  if(toChat)setTimeout(()=>$('#cBox').scrollIntoView({behavior:'smooth'}),60);
 }
+
+
+const LOGO_DRIVE='https://lh3.googleusercontent.com/d/1fF20U_guW8MdMjFfyKObJe7bvuCaTJ7d';
+let logoC=null;
+function tryLoad(src,cors){
+ return new Promise(res=>{
+  const im=new Image();
+  if(cors)im.crossOrigin='anonymous';
+  im.onload=()=>res(im);im.onerror=()=>res(null);
+  im.src=src;
+ });
+}
+async function loadLogo(){
+ if(logoC)return logoC;
+ let l=await tryLoad('icon-192.png',false);          // من موقعك (نفس النطاق)
+ if(!l)l=await tryLoad(LOGO_DRIVE,true);             // احتياطي
+ if(l)logoC=l;
+ return l;
+}
+function loadImg(src){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=src})}
+
+function stamp(x,c,logo){
+ const m=Math.round(c.width*.03);
+ if(logo){
+  const w=Math.round(c.width*.22),h=Math.round(w*logo.naturalHeight/logo.naturalWidth);
+  const px=c.width-w-m,py=c.height-h-m;
+  x.save();x.globalAlpha=.95;
+  if(x.roundRect){x.beginPath();x.roundRect(px,py,w,h,w*.18);x.clip()}
+  x.drawImage(logo,px,py,w,h);x.restore();
+ }else{   // إن تعذّر الشعار: يُطبع اسم الموقع أسفل اليمين
+  const fs=Math.round(c.width*.045);
+  x.save();x.font='700 '+fs+'px Lalezar,"IBM Plex Sans Arabic",Tahoma,sans-serif';
+  x.textAlign='right';x.textBaseline='bottom';
+  x.shadowColor='rgba(0,0,0,.7)';x.shadowBlur=fs*.3;
+  x.fillStyle='#fff';x.fillText('حكاية سوق',c.width-m,c.height-m);x.restore();
+ }
+}
+async function makeBlob(im,logo){
+ const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;
+ const x=c.getContext('2d');x.drawImage(im,0,0);
+ stamp(x,c,logo);
+ return await new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',.92));
+}
+$('#pDl').onclick=async()=>{
+ const k=+$('#pSlider').dataset.k,el=$('#pSlides').children[k],src=el&&el.src;
+ if(!src||!okImg(src))return;
+ const btn=$('#pDl');btn.disabled=true;
+ try{
+  const [im,logo]=await Promise.all([loadImg(src),loadLogo()]);
+  let blob;
+  try{blob=await makeBlob(im,logo)}
+  catch(e){blob=await makeBlob(im,null)}              // إن رفض المتصفح الشعار نطبع الاسم
+  const a=document.createElement('a');
+  const nm=String(P[curI]?P[curI].t:'image').replace(/[\\/:*?"<>|]/g,'').trim()||'image';
+  a.href=URL.createObjectURL(blob);a.download=nm+'-'+(k+1)+'.jpg';
+  document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+ }catch(e){alert('تعذر تحميل الصورة')}
+ btn.disabled=false;
+};
 
 /* معالج أزرار البطاقة */
 $('#grid').addEventListener('click',e=>{
@@ -1264,27 +1330,24 @@ async function ensureImgs(p){
 
 async function openEdit(p){
  if(!p||!S)return;
- await ensureImgs(p);
- editK=p.k;
- files.forEach(f=>{if(f.url&&f.url.startsWith('blob:'))URL.revokeObjectURL(f.url)});
- files=(p.imgs||[]).filter(okImg).slice(0,4).map(d=>({url:d,data:d}));
- const [r,w]=String(p.l||'').split(' - ');
- $('#aT').value=p.t;$('#aC').value=p.c;$('#aH').value=p.ph;
- ['#aT','#aC','#aH'].forEach(s=>$(s).disabled=true);
- $('#aR').value=REG[r]?r:'';fillWil('#aR','#aW',w);
- $('#aP').value=p.p;$('#aS').value=p.s;$('#aDl').checked=!!p.dl;$('#aD').value=p.d||'';
-$('#aK').value=KINDS.includes(p.kd)?p.kd:'';
- const t1=$('#addTitle');if(t1)t1.textContent='تعديل الإعلان';
- $('#addForm .row .btn').textContent='حفظ التعديل';
- drawPics();
- $('#addDlg').showModal();
+ ldShow();                                   // يظهر اللودنج فور الضغط
+ try{
+  await ensureImgs(p);
+  editK=p.k;
+  files.forEach(f=>{if(f.url&&f.url.startsWith('blob:'))URL.revokeObjectURL(f.url)});
+  files=(p.imgs||[]).filter(okImg).slice(0,4).map(d=>({url:d,data:d}));
+  const [r,w]=String(p.l||'').split(' - ');
+  $('#aT').value=p.t;$('#aC').value=p.c;$('#aH').value=p.ph;
+  $('#aH').disabled=true;                    // الاسم والقسم أصبحا قابلين للتعديل
+  $('#aR').value=REG[r]?r:'';fillWil('#aR','#aW',w);
+  $('#aP').value=p.p;$('#aS').value=p.s;$('#aDl').checked=!!p.dl;$('#aD').value=p.d||'';
+  $('#aK').value=KINDS.includes(p.kd)?p.kd:'';
+  const t1=$('#addTitle');if(t1)t1.textContent='تعديل الإعلان';
+  $('#addForm .row .btn').textContent='حفظ التعديل';
+  drawPics();
+  $('#addDlg').showModal();
+ }finally{ldHide()}
 }
-$('#pEdit').onclick=()=>{
- const p=P[curI];
- if(!p||!S||String(p.id)!==String(S.user.id))return;
- $('#pDlg').close();
- openEdit(p);
-};
 
 
 /* ===== الدردشة ===== */
@@ -1461,22 +1524,34 @@ function chatCard(x){
  </button>`;
 }
 
+let CH=[];
+function chatHay(x){
+ const p=P.find(p=>String(p.k)===String(x.prod));
+ return [x.title,x.buyerName,x.prod,x.last,p&&p.t,p&&p.c,p&&p.ph,p&&p.id].filter(Boolean).join(' ').toLowerCase();
+}
+function drawChats(){
+ const q=$('#cQ').value.trim().toLowerCase(),qd=digits(q);
+ const list=CH.filter(x=>{if(!q)return true;const h=chatHay(x);return h.includes(q)||(qd&&h.includes(qd))});
+ $('#cList').innerHTML=list.length?list.map(chatCard).join('')
+  :'<p>'+(CH.length?'لا توجد نتائج مطابقة.':'لا توجد محادثات بعد. اضغط أيقونة الدردشة على أي منتج لتبدأ.')+'</p>';
+}
+$('#cQ').addEventListener('input',drawChats);
+$('#cQ').addEventListener('keydown',e=>{if(e.key==='Enter')e.preventDefault()});   // حتى لا تُغلق النافذة
+
 async function openChatList(){
  if(!S)return $('#loginBtn').click();
- const L=$('#cList');L.innerHTML='<p>جارٍ التحميل…</p>';
+ $('#cQ').value='';CH=[];
+ $('#cList').innerHTML='<p>جارٍ التحميل…</p>';
  $('#cDlg').showModal();
  const r=await cpost({action:'inbox'},true);
- if(!r.ok){L.innerHTML=`<p>${esc(r.error||'تعذر التحميل')}</p>`;return}
- if(!r.items.length){L.innerHTML='<p>لا توجد محادثات بعد. اضغط أيقونة الدردشة على أي منتج لتبدأ.</p>';return}
- L.innerHTML=r.items.map(chatCard).join('');
+ if(!r.ok){$('#cList').innerHTML=`<p>${esc(r.error||'تعذر التحميل')}</p>`;return}
+ CH=r.items;drawChats();
 
- // المنتجات غير المحمّلة بعد: نجلبها ونحدّث البطاقة (صورة + سعر + حالة)
+ // المنتجات غير المحمّلة بعد: نجلبها ثم نعيد الرسم (صورة + سعر + حالة، ويصبح البحث بالقسم والرقم ممكنًا)
  r.items.forEach(async x=>{
   if(P.some(p=>String(p.k)===String(x.prod)))return;
   const i=await findProduct(x.prod);
-  if(i<0)return;
-  const old=[...L.querySelectorAll('.chat.pc')].find(b=>b.dataset.k===String(x.prod)&&b.dataset.b===String(x.buyer));
-  if(old)old.outerHTML=chatCard(x);
+  if(i>=0&&$('#cDlg').open)drawChats();
  });
 }
 $('#bChat').onclick=openChatList;
@@ -1604,7 +1679,9 @@ function drawMine(){
  const n=st=>MP.filter(p=>p.st===st).length;
  $('#mTot').textContent=MP.length;$('#mAct').textContent=n('نشط');
  $('#mIna').textContent=n('غير نشط');$('#mExp').textContent=n('منتهي');$('#mSus').textContent=n('موقوف');
- $('#mGrid').innerHTML=MP.length?MP.map((p,i)=>{
+ const q=$('#mQ').value.trim().toLowerCase();
+ const list=MP.map((p,i)=>({p,i})).filter(({p})=>!q||String(p.t).toLowerCase().includes(q)||String(p.c).toLowerCase().includes(q));
+ $('#mGrid').innerHTML=list.length?list.map(({p,i})=>{
   const ex=p.st==='منتهي';
   return `<article class="card" data-i="${i}">
  <div class="mimg">
@@ -1625,8 +1702,9 @@ function drawMine(){
   ${ex?'':`<button type="button" class="btn ghost edb" data-i="${i}">تعديل</button>`}
  </div>
 </article>`}).join('')
- :'<div class="cempty" style="grid-column:1/-1">لم تضف أي منتج بعد.</div>';
+ :`<div class="cempty" style="grid-column:1/-1">${MP.length?'لا توجد نتائج مطابقة.':'لم تضف أي منتج بعد.'}</div>`;
 }
+$('#mQ').addEventListener('input',drawMine);
 
 async function loadMine(first){
  if(!S)return;
@@ -1647,26 +1725,21 @@ async function renewProduct(i,btn){
  const p=MP[i];if(!p||!S)return;
  if(S.user.still<=0)return alert('انتهى رصيدك، لا يمكنك تجديد المنتج');
  if(!confirm('سيتم خصم 1 من رصيدك لتجديد "'+p.t+'" لمدة 3 اشهر. هل تؤكد؟'))return;
- btn.disabled=true;let consumed=false;
+ btn.disabled=true;
  try{
-  const u=await post(API_USER,{action:'consume',token:S.token});
-  if(!u.ok){if(u.code==='auth')saveSess(null);throw new Error(u.error)}
-  consumed=true;
   const r=await post(API_PROD,{action:'renew',token:S.token,k:p.k});
   if(!r.ok){if(r.code==='auth')saveSess(null);throw new Error(r.error)}
-   S.user=u.user;saveSess(S);
+  if(r.bal){S.user={...S.user,...r.bal};saveSess(S)}
   await refreshMe();
   await loadMine();loadProducts();loadCounts();
- }catch(err){
-  if(consumed){try{const f=await post(API_USER,{action:'refund',token:S.token});if(f.ok){S.user=f.user;saveSess(S)}}catch(x){}}
-  alert(err.message||'تعذر التجديد');
- }
+ }catch(err){alert(err.message||'تعذر التجديد')}
  btn.disabled=false;
 }
 
 $('#prodBtn').onclick=()=>{
  if(!S)return $('#loginBtn').click();
  closeAccBoxes();
+$('#mQ').value='';
  $('#mDlg').showModal();loadMine(true);
 };
 $('#mClose').onclick=()=>$('#mDlg').close();
@@ -1979,6 +2052,7 @@ const EN={
 "واتساب":"WhatsApp","اتصال":"Call","دردشة":"Chat","تعديل الإعلان":"Edit listing","تعديل":"Edit","المحادثة":"Conversation",
 "اكتب رسالتك…":"Type your message…","الرسالة":"Message","إرسال":"Send","منتجاتي":"My products","المنتجات":"Products",
 "نشط":"Active","غير نشط":"Inactive","منتهي":"Expired","موقوف":"Suspended",
+"تحميل الصورة":"Download image","تعذر تحميل الصورة":"Could not download the image","ابحث بالاسم أو القسم…":"Search by name or category…","بحث في إعلاناتي":"Search my listings",
 "(رقم الهاتف لا يمكن تعديله)":"(Phone number cannot be edited)","رمز التحقق":"Verification code",
 "التحقق من البريد يساعدك في استعادة كلمة المرور":"Verifying your email helps you recover your password",
 "أدخل رمز التحقق":"Enter verification code","تأكيد":"Confirm","البريد الإلكتروني":"Email","حفظ":"Save",
@@ -2015,6 +2089,7 @@ const EN={
 "تعذر الحفظ، حاول مرة أخرى":"Could not save, please try again","تعذر النشر، حاول مرة أخرى":"Could not publish, please try again",
 "تعذر حفظ المفضلة، حاول مرة أخرى":"Could not save favorite, please try again","تعذر التجديد":"Could not renew",
 "هذا المنتج لم يعد متاحًا":"This product is no longer available",
+"ابحث بالمنتج أو القسم أو رقم المعلن…":"Search by product, category or advertiser number…","بحث في المحادثات":"Search chats","لا توجد نتائج مطابقة.":"No matching results.",
 "مسقط":"Muscat","ظفار":"Dhofar","مسندم":"Musandam","البريمي":"Al Buraimi","الداخلية":"Ad Dakhiliyah","شمال الباطنة":"North Al Batinah",
 "جنوب الباطنة":"South Al Batinah","جنوب الشرقية":"South Al Sharqiyah","شمال الشرقية":"North Al Sharqiyah","الظاهرة":"Ad Dhahirah","الوسطى":"Al Wusta",
 "مطرح":"Muttrah","بوشر":"Bawshar","السيب":"Seeb","العامرات":"Al Amerat","قريات":"Quriyat","صلالة":"Salalah","طاقة":"Taqah","مرباط":"Mirbat",
