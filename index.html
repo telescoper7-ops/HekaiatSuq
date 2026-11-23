@@ -74,7 +74,6 @@ header{background:var(--surface);border-bottom:1px solid var(--line);margin-bott
 .field input{padding-inline-start:44px}
 .field input:focus,.field select:focus{border-color:var(--brand)}
 .catbox{display:flex;gap:8px;align-items:center}.catbox select{flex:1;min-width:0}
-.count{white-space:nowrap;background:var(--chip);color:var(--ink);padding:0 14px;height:48px;display:flex;align-items:center;border-radius:14px;font-size:14px;font-weight:700}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:0}
 .card{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
 .card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
@@ -481,7 +480,7 @@ var srcs=[
     <div class="filters">
       <label class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.500-3.500"/></svg>
         <input id="q" type="search" placeholder="ابحث باسم المنتج…" aria-label="بحث بالموضوع"></label>
-      <div class="catbox"><select class="field" id="cat" aria-label="القسم" style="height:48px;border-radius:14px;border:1.5px solid var(--line);background:var(--field);padding:0 14px"></select><span class="count" id="count"></span></div>
+      <div class="catbox"><select class="field" id="cat" aria-label="القسم" style="height:48px;border-radius:14px;border:1.5px solid var(--line);background:var(--field);padding:0 14px"></select></div>
     </div>
   </div>
 </header>
@@ -881,7 +880,6 @@ updateFavTop();
  const q=$('#q').value.trim(),c=$('#cat').value;
 const list=P.map((p,i)=>({...p,i})).filter(p=>(!q||p.t.includes(q))&&(c==='كل الأقسام'||p.c===c)&&(F.s==='كل الحالات'||p.s===F.s)&&(!F.kd||p.kd===F.kd)&&(!F.reg||locOf(p)[0]===F.reg)&&(!F.wil||locOf(p)[1]===F.wil)&&(!F.min||p.p>=F.min)&&(!F.max||p.p<=F.max)&&(!F.dl||p.dl)&&(!F.fav||favs.has(p.k)));
 $('#bFilter').classList.toggle('cur',F.s!=='كل الحالات'||!!(F.kd||F.reg||F.wil||F.min||F.max||F.dl)||c!=='كل الأقسام'||!!q);
- $('#count').textContent=list.length;
  $('#grid').innerHTML=list.length?list.map(p=>`
 <article class="card" data-i="${p.i}">
  <div class="slider" data-n="1" data-k="0">
