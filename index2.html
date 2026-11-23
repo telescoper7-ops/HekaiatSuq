@@ -96,9 +96,9 @@ select.st{border:1.5px solid var(--line);border-radius:8px;padding:3px 6px;backg
 
 <script>
 const API={
- user:'https://script.google.com/macros/s/AKfycbw33iOKy2Ju1GTFz2niLOVsounil9NNqGLWIeomKF1GQgRSYz6U8IrmMFG-jcEZWSo0/exec',
+ user:'https://script.google.com/macros/s/AKfycbzElcTIXkY7WHuh-shnsIxvRBGN1j1pw9QT8-s-6d2wTqlMLtltrWPUbt1CMQr_mdPy/exec',
  prod:'https://script.google.com/macros/s/AKfycbzuQxwgrKzkx-fFbi83xbkvIOWn1_i3s7sm4l_M1PgTbWcRMhSBh57QJBeOi4oHFYPA/exec',
- ord:'https://script.google.com/macros/s/AKfycbyVc8UPI-f9MedCo571H7OsXKyxzZTgc2sFPzLAbuFZ9i8n2Fb62EKH5bEvivqg41Geng/exec'
+ ord:'https://script.google.com/macros/s/AKfycbwnnwjSpAQcgSW27PeQpFTt3uuE9rmehKa7yNx-AnbELH1EaW2zCYtZdBqFRLXE2dUqFw/exec'
 };
 const OPT={
  ustate:['نشط','غير نشط','موقوف'],perm:['User','Admin'],
@@ -113,7 +113,7 @@ const ACTO={k:'_a',l:'الإجراءات',x:'act',wa:true};
 const CFG={
  users:{api:'user',list:'adminUsers',save:'adminUserUpdate',del:'adminUserDelete',key:'id',
     cols:[{k:'id',l:'المعرّف'},{k:'name',l:'الاسم'},{k:'phone',l:'الهاتف',x:'ph'},{k:'pass',l:'كلمة المرور',x:'pw'},{k:'loc',l:'الموقع'},{k:'state',l:'الحالة'},{k:'still',l:'المتبقي'},{k:'perm',l:'الصلاحية'},ACT],
-  fields:[{k:'id',l:'المعرّف',t:'ro'},{k:'phone',l:'الهاتف',t:'ro'},{k:'name',l:'الاسم',t:'text'},{k:'email',l:'البريد',t:'text'},
+  fields:[{k:'id',l:'المعرّف',t:'ro'},{k:'phone',l:'الهاتف',t:'ro'},{k:'name',l:'الاسم',t:'text'},{k:'pass',l:'كلمة المرور',t:'text'},{k:'email',l:'البريد',t:'text'},
    {k:'loc',l:'الموقع (المنطقة - الولاية)',t:'text'},{k:'state',l:'الحالة',t:'select',o:'ustate'},{k:'perm',l:'الصلاحية',t:'select',o:'perm'},
    {k:'balance',l:'الرصيد',t:'number'},{k:'used',l:'المستخدم',t:'number'},{k:'still',l:'المتبقي',t:'number'},{k:'star',l:'النجوم',t:'number'},{k:'verified',l:'البريد موثّق',t:'check'}]},
  products:{api:'prod',list:'adminList',save:'adminUpdate',del:'adminDelete',key:'k',img:true,
